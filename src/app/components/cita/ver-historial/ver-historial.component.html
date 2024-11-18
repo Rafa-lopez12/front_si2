@@ -1,0 +1,198 @@
+<div class="d-flex flex-column flex-root">
+    <div class="page d-flex flex-row flex-column-fluid">
+        <app-sidebar></app-sidebar>
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <app-topbar></app-topbar>
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div id="kt_toolbar" class="toolbar">
+                    <div class="container-fluid d-flex flex-stack">
+                        <div class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
+                            <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">
+                                Editar Historial del Paciente
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="post d-flex flex-column-fluid" id="kt_post">
+                    <div class="container-xxl">
+                        <div class="card mb-5">
+                            <div class="card-header pt-5">
+                                <h3 class="card-title">
+                                    <span class="card-label fs-3 fw-700">Formulario de Historial</span>
+                                </h3>
+                            </div>
+                            <div class="card-body">
+                                <form [formGroup]="historialForm" (ngSubmit)="actualizarHistorial()">
+                                    
+                                    <!-- Campos individuales -->
+                                    <div class="mb-3 row">
+                                        <label class="col-sm-3 col-form-label">Número Historia Clínica:</label>
+                                        <div class="col-sm-9">
+                                            <input formControlName="numero_Historia_Clinica" type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3 row">
+                                        <label class="col-sm-3 col-form-label">Nombre:</label>
+                                        <div class="col-sm-9">
+                                            <input formControlName="nombre" type="text" class="form-control" />
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3 row">
+                                        <label class="col-sm-3 col-form-label">Apellido:</label>
+                                        <div class="col-sm-9">
+                                            <input formControlName="apellido" type="text" class="form-control" />
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3 row">
+                                        <label class="col-sm-3 col-form-label">CI:</label>
+                                        <div class="col-sm-9">
+                                            <input formControlName="ci" type="text" class="form-control" />
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3 row">
+                                        <label class="col-sm-3 col-form-label">Estado:</label>
+                                        <div class="col-sm-9">
+                                            <input formControlName="estado" type="number" class="form-control" />
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3 row">
+                                        <label class="col-sm-3 col-form-label">Frecuencia Cardiaca:</label>
+                                        <div class="col-sm-9">
+                                            <input formControlName="frecuencia_cardiaca" type="text" class="form-control" />
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3 row">
+                                        <label class="col-sm-3 col-form-label">Peso:</label>
+                                        <div class="col-sm-9">
+                                            <input formControlName="peso" type="number" class="form-control" />
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3 row">
+                                        <label class="col-sm-3 col-form-label">Altura:</label>
+                                        <div class="col-sm-9">
+                                            <input formControlName="altura" type="number" class="form-control" />
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3 row">
+                                        <label class="col-sm-3 col-form-label">Temperatura Corporal:</label>
+                                        <div class="col-sm-9">
+                                            <input formControlName="temperatura_corporal" type="text" class="form-control" />
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3 row">
+                                        <label class="col-sm-3 col-form-label">Tipo Sangre:</label>
+                                        <div class="col-sm-9">
+                                            <input formControlName="tipo_sangre" type="text" class="form-control" />
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3 row">
+                                        <label class="col-sm-3 col-form-label">Antecedente Familiar:</label>
+                                        <div class="col-sm-9">
+                                            <input formControlName="antecedente_familiar" type="text" class="form-control" />
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3 row">
+                                        <label class="col-sm-3 col-form-label">Fecha de Nacimiento:</label>
+                                        <div class="col-sm-9">
+                                            <input formControlName="fecha_nacimiento" type="date" class="form-control" />
+                                        </div>
+                                    </div>
+
+                                    <!-- <div class="mb-3 row">
+                                        <label class="col-sm-3 col-form-label">Paciente:</label>
+                                        <div class="col-sm-9">
+                                            <input formControlName="paciente" type="text" class="form-control" />
+                                        </div>
+                                    </div> -->
+
+                                    <!-- Campos tipo array con añadir y eliminar -->
+                                    <div class="mb-3 row">
+                                        <label class="col-sm-3 col-form-label">Vacunas:</label>
+                                        <div class="col-sm-9">
+                                            <div *ngFor="let control of getFormArrayControls('vacuna'); let i = index" class="d-flex mb-1">
+                                                <input [formControl]="control" type="text" class="form-control me-2" />
+                                                <button type="button" (click)="removeArrayItem('vacuna', i)" class="btn btn-danger btn-sm">Eliminar</button>
+                                            </div>
+                                            <button type="button" (click)="addArrayItem('vacuna')" class="btn btn-secondary btn-sm mt-2">Agregar Vacuna</button>
+                                        </div>
+                                    </div>
+
+                                  <!-- Dropzone para cargar imágenes -->
+<div class="mb-3 row">
+    <label class="col-sm-3 col-form-label">Radiografías:</label>
+    <div class="col-sm-3">
+      <ngx-dropzone (change)="onSelect($event)">
+        <p>Arrastra las radiografías aquí</p>
+        <ngx-dropzone-preview *ngFor="let file of files" [removable]="true" (removed)="onRemove(file)">
+          <p>{{ file.name }}</p>
+        </ngx-dropzone-preview>
+      </ngx-dropzone>
+  
+      <!-- Botón para subir la imagen seleccionada -->
+      <button type="button" (click)="uploadRadiografia()" class="btn btn-primary mt-2">Subir Radiografía</button>
+  
+      <!-- Muestra de imágenes ya subidas -->
+      <div class="mt-3">
+        <h5>Radiografías Guardadas:</h5>
+        <div *ngFor="let url of getFormArrayControls('radiografias'); let i = index" class="d-flex mb-1 align-items-center">
+          <img [src]="url.value" alt="Radiografía" width="100" class="me-2" />
+          <button type="button" (click)="removeArrayItem('radiografias', i)" class="btn btn-danger btn-sm">Eliminar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+                                      
+                                    <div class="mb-3 row">
+                                        <label class="col-sm-3 col-form-label">Antecedentes Personales:</label>
+                                        <div class="col-sm-9">
+                                            <div *ngFor="let control of getFormArrayControls('antecedente_personal'); let i = index" class="d-flex mb-1">
+                                                <input [formControl]="control" type="text" class="form-control me-2" />
+                                                <button type="button" (click)="removeArrayItem('antecedente_personal', i)" class="btn btn-danger btn-sm">Eliminar</button>
+                                            </div>
+                                            <button type="button" (click)="addArrayItem('antecedente_personal')" class="btn btn-secondary btn-sm mt-2">Agregar Antecedente Personal</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3 row">
+                                        <label class="col-sm-3 col-form-label">Observaciones:</label>
+                                        <div class="col-sm-9">
+                                            <div *ngFor="let control of getFormArrayControls('observaciones'); let i = index" class="d-flex mb-1">
+                                                <input [formControl]="control" type="text" class="form-control me-2" />
+                                                <button type="button" (click)="removeArrayItem('observaciones', i)" class="btn btn-danger btn-sm">Eliminar</button>
+                                            </div>
+                                            <button type="button" (click)="addArrayItem('observaciones')" class="btn btn-secondary btn-sm mt-2">Agregar Observación</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3 row">
+                                        <label class="col-sm-3 col-form-label">Alergias:</label>
+                                        <div class="col-sm-9">
+                                            <div *ngFor="let control of getFormArrayControls('alergias'); let i = index" class="d-flex mb-1">
+                                                <input [formControl]="control" type="text" class="form-control me-2" />
+                                                <button type="button" (click)="removeArrayItem('alergias', i)" class="btn btn-danger btn-sm">Eliminar</button>
+                                            </div>
+                                            <button type="button" (click)="addArrayItem('alergias')" class="btn btn-secondary btn-sm mt-2">Agregar Alergia</button>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" [disabled]="!historialForm.valid" class="btn btn-primary mt-3">Actualizar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

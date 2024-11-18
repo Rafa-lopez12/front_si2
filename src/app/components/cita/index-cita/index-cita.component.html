@@ -1,0 +1,137 @@
+<div class="d-flex flex-column flex-root">
+    <!--begin::Page-->
+    <div class="page d-flex flex-row flex-column-fluid">
+        <!--begin::Aside-->
+        <app-sidebar></app-sidebar>
+        <!--end::Aside-->
+        <!--begin::Wrapper-->
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <!--begin::Header-->
+            <app-topbar></app-topbar>
+            <!--end::Header-->
+            <!--begin::Content-->
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <!--begin::Toolbar-->
+                <div class="toolbar" id="kt_toolbar">
+                    <div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
+                        <div class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
+                            <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">
+                                Panel de Citas
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Toolbar-->
+                <!--begin::Post-->
+                <div class="post d-flex flex-column-fluid" id="kt_post">
+                    <div id="kt_content_container" class="container-xxl">
+                        <div class="row gy-5 g-xl-8">
+                            <div class="col-12">
+                                <div class="card mb-5 mb-xl-5">
+                                    <div class="card-header border-0 pt-5">
+                                        <h3 class="card-title align-items-start flex-column">
+                                            <span class="card-label fs-3 mb-1 fw-700">Lista de Citas</span>
+                                        </h3>
+                                    </div>
+                                    <div class="card-body pt-0">
+                                        <div class="separator separator-dashed my-4"></div>
+                                        <div class="table-responsive">
+                                            <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Dia</th>
+                                                        <th>Fecha Registro</th>
+                                                        <th>Horario</th>
+                                                        <th>Paciente</th>
+                                                        <th>Acciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody *ngIf="Citas.length > 0">
+                                                    <tr *ngFor="let cita of Citas">
+                                                        <td>{{ cita.horario.dia }}</td>
+                                                        <td>{{ cita.fecha_Registro }}</td>
+                                                        <td>
+                                                            Hora Inicio: {{ cita.horario.hora_inicio }}<br>
+                                                            Hora Fin: {{ cita.horario.hora_fin }}
+                                                        </td>
+                                                        <td>
+                                                            Nro Registro: {{ cita.paciente.nroRegistro }}<br>
+                                                            Usuario: {{ cita.paciente.usuario?.nombre }}
+                                                        </td>
+                                                        <td>
+                                                            <button 
+                                                                class="btn btn-primary me-2" 
+                                                                [routerLink]="['/historial', cita.paciente.nroRegistro]" 
+                                                                [disabled]="cita.estado === 1">
+                                                                Ver Historial
+                                                                </button>
+                                                            <button class="btn btn-danger" 
+                                                            class="btn btn-danger" (click)="cancelarCita(cita.id)"
+                                                            >
+                                                                Cancelar Cita
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                                <tbody *ngIf="Citas.length == 0">
+                                                    <tr>
+                                                        <td class="text-center" colspan="5">
+                                                            No hay citas disponibles
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <ngb-pagination [collectionSize]="Citas.length" [(page)]="page" [pageSize]="pageSize" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Post-->
+            </div>
+            <!--end::Content-->
+        </div>
+        <!--end::Wrapper-->
+    </div>
+    <!--end::Page-->
+    <!-- FORMULARIO DE NOTIFICACIÓN -->
+    <div *ngIf="showNotificationForm" class="notification-form">
+        <h3>Enviar Notificación</h3>
+        <form (ngSubmit)="enviarNotificacion()">
+          <div class="form-group">
+            <label for="title">Título</label>
+            <input
+              type="text"
+              id="title"
+              class="form-control"
+              [(ngModel)]="notificationData.title"
+              name="title"
+              placeholder="Título de la notificación"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="body">Mensaje</label>
+            <textarea
+              id="body"
+              class="form-control"
+              [(ngModel)]="notificationData.body"
+              name="body"
+              placeholder="Mensaje de la notificación"
+              required>
+            </textarea>
+          </div>
+          <button type="submit" class="btn btn-success">Enviar Notificación</button>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="showNotificationForm = false">
+            Cancelar
+          </button>
+        </form>
+      </div>
+</div>

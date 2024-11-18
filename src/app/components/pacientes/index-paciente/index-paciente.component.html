@@ -1,0 +1,138 @@
+<div class="d-flex flex-column flex-root">
+    <!--begin::Page-->
+    <div class="page d-flex flex-row flex-column-fluid">
+        <!--begin::Aside-->
+        <app-sidebar></app-sidebar>
+        <!--end::Aside-->
+        <!--begin::Wrapper-->
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <!--begin::Header-->
+            <app-topbar></app-topbar>
+            <!--end::Header-->
+            <!--begin::Content-->
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <!--begin::Toolbar-->
+                <div class="toolbar" id="kt_toolbar">
+                    <!--begin::Container-->
+                    <div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
+                        <!--begin::Page title-->
+                        <div data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
+                            <!--begin::Title-->
+                            <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">Panel
+                                <span class="h-20px border-gray-400 border-start ms-3 mx-2"></span>
+                                <ol class="breadcrumb text-muted fs-6 fw-semibold">
+                                    <li class="breadcrumb-item pe-3">Paciente</li>
+                                </ol>
+                            </h1>
+                            <!--end::Title-->
+                        </div>
+                        <!--end::Page title-->
+                    </div>
+                    <!--end::Container-->
+                </div>
+                <!--end::Toolbar-->
+                <!--begin::Post-->
+                <div class="post d-flex flex-column-fluid" id="kt_post">
+                    <!--begin::Container-->
+                    <div id="kt_content_container" class="container-xxl">
+                        <div class="row gy-5 g-xl-8">
+                            <div class="col-12">
+                                <div class="card mb-5 mb-xl-5">
+                                    <!--begin::Card header-->
+                                    <div class="card-header border-0 pt-5">
+                                        <h3 class="card-title align-items-start flex-column">
+                                            <span class="card-label fs-3 mb-1 fw-700">Pacientes</span>
+                                        </h3>
+                                        <div class="card-toolbar">
+                                            <a [routerLink]="['/paciente/create']" class="btn btn-dark">
+                                                Insertar Excel de Pacientes
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!--end::Card header-->
+                                    <div class="card-body pt-0">
+                                        <div class="table-responsive">
+                                            <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4" style="margin-bottom: 0px !important;">
+                                                <tbody *ngIf="!load_data">
+                                                    <ng-container *ngIf="usuarios.length >= 1">
+                                                      <ng-container *ngFor="let item of usuarios | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                                        <tr>
+                                                          <td>
+                                                            <div class="d-flex align-items-center">
+                                                              <div class="symbol symbol-45px me-5">
+                                                                <span class="symbol-label fw-bold bg-light-danger text-danger">
+                                                                  {{ item.nombre?.substr(0, 1) }} <!-- Verifica que 'nombre' existe -->
+                                                                </span>
+                                                              </div>
+                                                              <div class="d-flex justify-content-start flex-column">
+                                                                <a class="text-dark fw-bold text-hover-primary mb-1 fs-6">
+                                                                  {{ item.nombre }} {{ item.apellido }} <!-- Asegúrate de que 'nombre' y 'apellido' existan -->
+                                                                </a>
+                                                                <a class="text-hover-primary fw-semibold d-block fs-7">
+                                                                  {{ item.email }}
+                                                                </a>
+                                                              </div>
+                                                            </div>
+                                                          </td>
+                                                          <td class="text-end">
+                                                            <a class="text-dark fw-bold text-hover-primary d-block mb-1 fs-6">
+                                                              {{ item.telefono }} <!-- Verificar si 'telefono' existe -->
+                                                            </a>
+                                                          </td>
+                                                          <td class="text-end">
+                                                            <a class="text-dark fw-bold text-hover-primary d-block mb-1 fs-6">
+                                                              {{ item.direccion }} <!-- Verificar si 'direccion' existe -->
+                                                            </a>
+                                                          </td>
+                                                          <td class="text-end">
+                                                            <span class="badge" [ngClass]="{'badge-light-primary': item.enabled, 'badge-light-danger': !item.enabled}">
+                                                              <span *ngIf="item.enabled">Activado</span>
+                                                              <span *ngIf="!item.enabled">Desactivado</span>
+                                                            </span>
+                                                          </td>
+                                                        </tr>
+                                                      </ng-container>
+                                                    </ng-container>
+                                                    <ng-container *ngIf="usuarios.length == 0">
+                                                      <div data-kt-search-element="empty" class="text-center">
+                                                        <div class="pt-10 pb-5">
+                                                          <span class="svg-icon svg-icon-muted svg-icon-2hx">
+                                                            <!-- Icono para vacío -->
+                                                          </span>
+                                                        </div>
+                                                        <div class="pb-15 fw-semibold">
+                                                          <h3 class="text-gray-600 fs-5 mb-2">No se encontraron resultados</h3>
+                                                          <div class="text-muted fs-7">Vuelva a intentar con una consulta diferente</div>
+                                                        </div>
+                                                      </div>
+                                                    </ng-container>
+                                                  </tbody>
+                                                  
+                                                <tbody *ngIf="load_data">
+                                                    <tr>
+                                                        <td class="text-center" colspan="4">
+                                                            <div class="spinner-border" style="width: 3rem; height: 3rem; margin-top: 1.5rem;" role="status">
+                                                                <span class="sr-only">Loading...</span>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <ngb-pagination [collectionSize]="usuarios.length" [(page)]="page" [pageSize]="pageSize" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Post-->
+            </div>
+            <!--end::Content-->
+        </div>
+        <!--end::Wrapper-->
+    </div>
+    <!--end::Page-->
+</div>
